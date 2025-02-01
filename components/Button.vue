@@ -43,12 +43,4 @@ name: 'Button',
   border: none;
   cursor: pointer;
 }
-
-.header-bar {
-  background-color: #b3d9ea; /* Light blue */
-  padding: 15px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-}
 </style>

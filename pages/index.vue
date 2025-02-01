@@ -1,3 +1,15 @@
+<style> 
+
+.header-bar {
+  background-color:#9BDEF0; /* Light blue */
+  padding: 15px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+</style>
+
 <template>
     <div>
       <div class="header-bar">
@@ -34,13 +46,13 @@ export default {
     data() {
         return {
             buttons: [
-            { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
-            { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
-            { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
-            { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo"},
-            { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
-            { label: "Toggle heatmap", class: "success", action: this.toggleHeatmap, icon: "power-off" },
-            { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
+              { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
+              { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
+              { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
+              { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo"},
+              { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
+              { label: "Toggle heatmap", class: "success", action: this.toggleHeatmap, icon: "power-off" },
+              { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
             ]
         };
     },
