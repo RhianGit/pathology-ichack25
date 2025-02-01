@@ -11,7 +11,7 @@ import json
 import cv2 as cv
 
 SIZE = (224, 224)
-device = torch.device("mps")
+device = torch.device("cpu")
 
 transform = transforms.Compose([
     transforms.Resize(SIZE),
@@ -44,7 +44,7 @@ for i in range(len(model_children)):
 
 def process(image):
     image = transform(image).unsqueeze(0).to(device)
-    
+
     for i, layer in enumerate(conv_layers[:LAYER_NO+1]):
         image = layer(image)
     output = image.squeeze(0)
@@ -57,7 +57,7 @@ def process(image):
     processed -= lb
     processed /= ub
     processed = processed ** 3
-    
+
     out = np.zeros((processed.shape[0], processed.shape[1], 4), dtype=np.uint8)
     out[:,:,0] = 255
     out[:,:,1] = 0

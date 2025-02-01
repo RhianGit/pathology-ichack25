@@ -9,7 +9,6 @@
 
 body {
     background-color: #F2F2EB;
-    /* Light grey background */
 }
 
 .button-container {
@@ -27,6 +26,54 @@ var slide_height = 32731;
 var slide_tile = 512;
 
 import('openseadragon').then(OpenSeadragon => {
+    async function handleFormSubmit() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/transform?' + new URLSearchParams({
+                url: "https://slides.virtualpathology.leeds.ac.uk/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs?512+1536+512+512+16+100"
+            }), {
+                method: 'GET',
+                // Only for local dev with self-signed certs
+                mode: 'cors',
+                credentials: 'omit'
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const imageBlob = await response.blob();
+            const imageUrl = URL.createObjectURL(imageBlob);
+
+            console.log(imageBlob);
+            console.log(imageUrl);
+
+            const overlayElement = document.getElementById('example-overlay'); // Assuming there's an element with this ID
+            if (overlayElement) {
+                overlayElement.src = imageUrl;
+                console.log(overlayElement.src);
+            } else {
+                console.error('Overlay element not found');
+            }
+        } catch (error) {
+            console.error('Error fetching or processing the image:', error);
+        }
+    }
+
+    // async function handleFormSubmit() {
+    //     const { data: imageBlob, error } = await useFetch('http://127.0.0.1:5000/transform', {
+    //         method: 'GET',
+    //         query: { url: "https://slides.virtualpathology.leeds.ac.uk/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs?512+1536+512+512+16+100" },
+    //         https: { rejectUnauthorized: false } // Only for local dev with self-signed certs
+    //     });
+    //
+    //     const blob = new Blob([imageBlob.value], { type: 'image/png' });
+    //     const imageUrl = URL.createObjectURL(blob);
+    //
+    //     console.log(blob);
+    //     console.log(imageUrl);
+    //     overlayElement.src = imageUrl;
+    //     console.log(overlayElement.src);
+    // }
 
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
@@ -67,15 +114,16 @@ import('openseadragon').then(OpenSeadragon => {
     });
     const overlayElement = document.createElement("img");
     overlayElement.id = "example-overlay";
-    overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/1/1d/Captura_de_tela_2024-12-19_224037.png";
-    // overlayElement.style.width = `${slide_width}`;
-    // overlayElement.style.height = `${slide_height}`;
-    overlayElement.style.opacity = "0.5";
+    overlayElement.id = "example-overlay";
+    overlayElement.style.padding = "10px";
+    overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
+    overlayElement.style.width = "100%";
+    overlayElement.style.height = "100%";
+    overlayElement.style.opacity = "0.2";
 
     let overlayVisible = false;
 
     const button = new OpenSeadragon.Button({
-
         tooltip: '',
         srcRest: 'images/button_rest.png',
         srcHover: 'images/button_hover.png',
@@ -84,6 +132,7 @@ import('openseadragon').then(OpenSeadragon => {
             if (overlayVisible) {
                 viewer.removeOverlay('example-overlay');
             } else {
+                handleFormSubmit();
                 viewer.addOverlay({
                     element: overlayElement,
                     location: new OpenSeadragon.Point(0, 0),
@@ -91,7 +140,7 @@ import('openseadragon').then(OpenSeadragon => {
                     height: slide_height,
                     checkResize: true,
                 });
-
+                overlayVisible = !overlayVisible;
             }
             overlayVisible = !overlayVisible;
         }
