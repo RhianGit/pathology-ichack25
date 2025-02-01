@@ -128,11 +128,15 @@ import('openseadragon').then(OpenSeadragon => {
             const overlayElement = document.createElement("img");
             overlayElement.id = "example-overlay";
             overlayElement.style.padding = "10px";
-            overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
+            overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/b/b9/Solid_red.png";
+            overlayElement.style.width = "100%";
+            overlayElement.style.height = "100%";
+            overlayElement.style.opacity = "0.2";
+
 
             viewer.addOverlay({
                 element: overlayElement,
-                location: new OpenSeadragon.Rect(0.1, 0.1, 0.3, 0.2)
+                location: new OpenSeadragon.Rect(0, 0, 1, 1)
             });
         }
     }
