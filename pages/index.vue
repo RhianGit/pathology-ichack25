@@ -93,9 +93,13 @@ import('openseadragon').then(OpenSeadragon => {
         sequenceMode: true,
 
         overlays: [{
-            px: 7200,
-            py: 5233,
-            id: 'heatmap_overlay'
+            id: 'right-arrow-overlay',
+            x: 100,
+            y: 100,
+            width: 1000,
+            height: 1000,
+            placement: 'RIGHT',
+            checkResize: false
         }],
 
         tileSources: {
@@ -121,13 +125,32 @@ import('openseadragon').then(OpenSeadragon => {
                     zoom + //1 / (level - (slide_levels - 1)) +
                     '+100';
 
-                console.log(request_string);
+                // console.log(request_string);
 
                 return request_string;
             }
         }
     });
+
+    viewer.addHandler("canvas-drag", function () {
+        console.log("Hello");
+        var overlay = document.createElement("div");
+        overlay.id = "example-overlay";
+        overlay.innerHTML = "This is an overlay";
+        overlay.style.background = "rgba(255, 255, 255, 0.7)";
+        overlay.style.padding = "10px";
+        overlay.style.fontFamily = "Arial, sans-serif";
+
+        viewer.addOverlay({
+            element: overlay,
+            location: new OpenSeadragon.Rect(0.1, 0.1, 0.3, 0.2)
+        });
+    });
 });
+
+function test() {
+    console.log("Hello");
+}
 
 </script>
 
@@ -148,6 +171,9 @@ import('openseadragon').then(OpenSeadragon => {
     <div id="custom-overlay" class="overlay" style="display: none;">This is an overlay</div>
 
     <div>
+        <div @click="test">
+            test
+        </div>
         <div id="openseadragon1" class="p-4 h-screen"></div>
     </div>
 </template>
