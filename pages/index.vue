@@ -1,15 +1,14 @@
 <style>
 .header-bar {
-    /* background-color: #9BDEF0; */
-    /* Light blue */
-    padding: 15px;
+    padding: 10px;
     text-align: center;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 24px;
     font-weight: bold;
 }
 
 body {
-  background-color: #6a72e0; /* Light grey background */
+  background-color: #F2F2EB; /* Light grey background */
 }
 
 .button-container {
@@ -39,13 +38,13 @@ export default {
     data() {
         return {
             buttons: [
-                { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
-                { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
-                { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
-                { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo" },
-                { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
+                // { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
+                // { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
+                // { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
+                // { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo" },
+                // { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
                 { label: "Toggle heatmap", class: "success", action: this.toggleHeatmap, icon: "power-off" },
-                { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
+                // { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
             ]
         };
     },
@@ -83,6 +82,8 @@ var slide_height = 32731;
 var slide_tile = 512;
 
 import('openseadragon').then(OpenSeadragon => {
+
+    
 
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
