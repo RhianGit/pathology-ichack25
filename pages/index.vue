@@ -1,20 +1,13 @@
-<style> 
-
+<style>
 .header-bar {
-  background-color:#9BDEF0; /* Light blue */
-  padding: 15px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
+    background-color: #9BDEF0;
+    /* Light blue */
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
-
 </style>
-
-
-<script>
-
-</script>
-
 
 <script lang="ts">
 /* import the fontawesome core */
@@ -30,50 +23,57 @@ library.add(faSearchPlus, faSearchMinus, faUndo, faRedo, faExpand, faPowerOff, f
 
 export default {
     components: {
-      FontAwesomeIcon
+        FontAwesomeIcon
     },
 
     data() {
         return {
             buttons: [
-              { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
-              { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
-              { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
-              { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo"},
-              { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
-              { label: "Toggle heatmap", class: "success", action: this.toggleHeatmap, icon: "power-off" },
-              { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
+                { label: "Zoom In", class: "secondary", action: this.zoomIn, icon: "search-plus" },
+                { label: "Zoom Out", class: "secondary", action: this.zoomOut, icon: "search-minus" },
+                { label: "Rotate Left", class: "secondary", action: this.rotateLeft, icon: "undo" },
+                { label: "Rotate Right", class: "secondary", action: this.rotateRight, icon: "redo" },
+                { label: "Full Screen", class: "secondary", action: this.fullScreen, icon: "expand" },
+                { label: "Toggle heatmap", class: "success", action: this.toggleHeatmap, icon: "power-off" },
+                { label: "Info", class: "secondary", action: this.showInfo, icon: "info" },
             ]
         };
     },
 
     methods: {
         zoomIn() {
-        alert("Zooming In!");
+            alert("Zooming In!");
         },
         zoomOut() {
-        alert("Zooming Out!");
+            alert("Zooming Out!");
         },
         rotateLeft() {
-        alert("Rotating Left!");
+            alert("Rotating Left!");
         },
         rotateRight() {
-        alert("Rotating Right!");
+            alert("Rotating Right!");
         },
         fullScreen() {
-        alert("Full Screen!");
+            alert("Full Screen!");
         },
         toggleHeatmap() {
-        alert("Toggle Heatmap!");
-        viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
+            alert("Toggle Heatmap!");
+            viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
         },
         showInfo() {
-        alert("Show info!");
+            alert("Show info!");
         }
     }
 };
 
+var slide_name = '17229.svs';
+var slide_path = '/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs';
+var slide_width = 32016;
+var slide_height = 32731;
+var slide_tile = 512;
+
 import('openseadragon').then(OpenSeadragon => {
+
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
         preserveViewport: true,
@@ -83,47 +83,59 @@ import('openseadragon').then(OpenSeadragon => {
         sequenceMode: true,
 
         overlays: [{
-          px: 7200,
-          py: 5233,
-          id: 'heatmap_overlay'
+            px: 7200,
+            py: 5233,
+            id: 'heatmap_overlay'
         }],
 
-        tileSources:
-            [
-                {
-                    '@context': 'http://iiif.io/api/image/2/context.json',
-                    '@id': 'https://libimages1.princeton.edu/loris/pudl0001%2F4609321%2Fs42%2F00000001.jp2',
-                    height: 7200,
-                    width: 5233,
-                    profile: ['http://iiif.io/api/image/2/level2.json'],
-                    protocol: 'http://iiif.io/api/image',
-                    tiles: [
-                        {
-                            scaleFactors: [1, 2, 4, 8, 16, 32],
-                            width: 1024
-                        }
-                    ]
-                }
-            ]
+        tileSources: {
+            debugMode: false,
+            crossOriginPolicy: 'Anonymous',
+            ajaxWithCredentials: false,
+            height: slide_height,
+            width: slide_width,
+            tileSize: slide_tile,
+            minLevel: 0,
+            maxLevel: 8,
+            getTileUrl: function (level, x, y) {
+
+                var zoom_list = [256, 128, 64, 32, 16, 8, 4, 2, 1];
+                var zoom = zoom_list[level]; //((max_level + 0) - level) - 1;
+
+                var request_string = "https://slides.virtualpathology.leeds.ac.uk" +
+                    slide_path + '?' +
+                    ((x * slide_tile)) + '+' +
+                    ((y * slide_tile)) + '+' +
+                    slide_tile + '+' +
+                    slide_tile + '+' +
+                    zoom + //1 / (level - (slide_levels - 1)) +
+                    '+100';
+
+                console.log(request_string);
+
+                return request_string;
+            }
+        }
     });
 });
 
 </script>
 
 <template>
-  <div class="header-bar">
-    <h1>Pathology heatmap generator</h1>
-  </div>
+    <div class="header-bar">
+        <h1>Pathology heatmap generator</h1>
+    </div>
 
-  <div v-for = "button in buttons" :key="button.label">
-      <Button :buttonClass="button.class" @click="button.action"> <FontAwesomeIcon :icon="button.icon" class="fa-icon" />
-        {{ button.label }}
-      </Button>
-  </div>
+    <div v-for="button in buttons" :key="button.label">
+        <Button :buttonClass="button.class" @click="button.action">
+            <FontAwesomeIcon :icon="button.icon" class="fa-icon" />
+            {{ button.label }}
+        </Button>
+    </div>
 
-  <div id="custom-overlay" class="overlay" style="display: none;">This is an overlay</div>
+    <div id="custom-overlay" class="overlay" style="display: none;">This is an overlay</div>
 
-  <div>
-      <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
-  </div>
+    <div>
+        <div id="openseadragon1" class="p-4 h-screen"></div>
+    </div>
 </template>
