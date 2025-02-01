@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@types/openseadragon": "^3.0.10",
     "nuxt": "^3.15.4",
+    "openseadragon": "^5.0.1",
     "vue": "latest",
     "vue-router": "latest"
   }
