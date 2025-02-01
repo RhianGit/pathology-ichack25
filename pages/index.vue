@@ -1,11 +1,21 @@
 <style>
 .header-bar {
-    background-color: #9BDEF0;
+    /* background-color: #9BDEF0; */
     /* Light blue */
     padding: 15px;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
+}
+
+body {
+  background-color: #6a72e0; /* Light grey background */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 </style>
 
@@ -126,11 +136,13 @@ import('openseadragon').then(OpenSeadragon => {
         <h1>Pathology heatmap generator</h1>
     </div>
 
-    <div v-for="button in buttons" :key="button.label">
+    <div class="button-container">
+      <div v-for="button in buttons" :key="button.label">
         <Button :buttonClass="button.class" @click="button.action">
             <FontAwesomeIcon :icon="button.icon" class="fa-icon" />
             {{ button.label }}
         </Button>
+      </div>
     </div>
 
     <div id="custom-overlay" class="overlay" style="display: none;">This is an overlay</div>
