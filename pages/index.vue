@@ -65,6 +65,7 @@ export default {
         },
         toggleHeatmap() {
         alert("Toggle Heatmap!");
+        viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
         },
         showInfo() {
         alert("Show info!");
@@ -80,6 +81,13 @@ import('openseadragon').then(OpenSeadragon => {
         minZoomLevel: 1,
         defaultZoomLevel: 1,
         sequenceMode: true,
+
+        overlays: [{
+          px: 7200,
+          py: 5233,
+          id: 'heatmap_overlay'
+        }],
+
         tileSources:
             [
                 {
@@ -99,6 +107,7 @@ import('openseadragon').then(OpenSeadragon => {
             ]
     });
 });
+
 </script>
 
 <template>
@@ -111,6 +120,8 @@ import('openseadragon').then(OpenSeadragon => {
         {{ button.label }}
       </Button>
   </div>
+
+  <div id="custom-overlay" class="overlay" style="display: none;">This is an overlay</div>
 
   <div>
       <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
