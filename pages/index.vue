@@ -67,6 +67,7 @@ import('openseadragon').then(OpenSeadragon => {
     });
     const overlayElement = document.createElement("img");
     overlayElement.id = "example-overlay";
+    overlayElement.id = "cell-overlay";
     overlayElement.style.padding = "10px";
     overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
 
