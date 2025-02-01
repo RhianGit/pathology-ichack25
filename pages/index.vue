@@ -10,22 +10,13 @@
 
 </style>
 
-<template>
-    <div>
-      <div class="header-bar">
-        <h1>Pathology heatmap generator</h1>
-      </div>
-      
-      <div v-for = "button in buttons" :key="button.label">
-        <Button :buttonClass="button.class" @click="button.action"> <FontAwesomeIcon :icon="button.icon" class="fa-icon" />
-          {{ button.label }}
-        </Button>
-      </div>
-    </div>
-</template>
-
 
 <script>
+
+</script>
+
+
+<script lang="ts">
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -36,7 +27,6 @@ import { faSearchPlus, faSearchMinus, faUndo, faRedo, faExpand, faPowerOff, faIn
 
 /* Register the icons into the library */
 library.add(faSearchPlus, faSearchMinus, faUndo, faRedo, faExpand, faPowerOff, faInfo)
-
 
 export default {
     components: {
@@ -81,14 +71,7 @@ export default {
         }
     }
 };
-</script>
-<template>
-    <div>
-        <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
-    </div>
-</template>
 
-<script lang="ts">
 import('openseadragon').then(OpenSeadragon => {
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
@@ -117,3 +100,19 @@ import('openseadragon').then(OpenSeadragon => {
     });
 });
 </script>
+
+<template>
+  <div class="header-bar">
+    <h1>Pathology heatmap generator</h1>
+  </div>
+
+  <div v-for = "button in buttons" :key="button.label">
+      <Button :buttonClass="button.class" @click="button.action"> <FontAwesomeIcon :icon="button.icon" class="fa-icon" />
+        {{ button.label }}
+      </Button>
+  </div>
+
+  <div>
+      <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
+  </div>
+</template>

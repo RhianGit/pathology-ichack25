@@ -10,17 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.7",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@nuxt/ui": "^2.21.0",
     "@nuxthq/ui": "^2.7.0",
-    "@babel/runtime": "^7.26.7",
     "@tailwindcss/vite": "^4.0.3",
     "@types/openseadragon": "^3.0.10",
     "nuxt": "^3.15.4",
     "openseadragon": "^5.0.1",
-    "tailwindcss": "^4.0.3",
     "use-open-seadragon": "^1.0.0",
     "vue": "latest",
     "vue-openseadragon": "^0.1.2",
