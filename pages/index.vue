@@ -67,9 +67,10 @@ import('openseadragon').then(OpenSeadragon => {
     });
     const overlayElement = document.createElement("img");
     overlayElement.id = "example-overlay";
-    overlayElement.id = "cell-overlay";
-    overlayElement.style.padding = "10px";
-    overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
+    overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/1/1d/Captura_de_tela_2024-12-19_224037.png";
+    // overlayElement.style.width = `${slide_width}`;
+    // overlayElement.style.height = `${slide_height}`;
+    overlayElement.style.opacity = "0.5";
 
     let overlayVisible = false;
 
@@ -80,25 +81,19 @@ import('openseadragon').then(OpenSeadragon => {
         srcHover: 'images/button_hover.png',
         srcDown: 'images/button_down.png',
         onClick: function () {
-            const overlay = viewer.getOverlayById('example-overlay');
-            if (overlay) {
+            if (overlayVisible) {
                 viewer.removeOverlay('example-overlay');
             } else {
-                const overlayElement = document.createElement("img");
-                overlayElement.id = "example-overlay";
-                overlayElement.style.padding = "10px";
-                overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/b/b9/Solid_red.png";
-                overlayElement.style.width = "100%";
-                overlayElement.style.height = "100%";
-                overlayElement.style.opacity = "0.2";
-
-
                 viewer.addOverlay({
                     element: overlayElement,
-                    location: new OpenSeadragon.Rect(0, 0, 1, 1)
+                    location: new OpenSeadragon.Point(0, 0),
+                    width: slide_width,
+                    height: slide_height,
+                    checkResize: true,
                 });
-            overlayVisible = !overlayVisible;
+
             }
+            overlayVisible = !overlayVisible;
         }
     });
 
