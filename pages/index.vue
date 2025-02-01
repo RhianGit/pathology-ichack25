@@ -50,10 +50,10 @@ export default {
     },
 
     methods: {
-        toggleHeatmap() {
-            alert("Toggle Heatmap!");
-            viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
-        }
+        // toggleHeatmap() {
+        //     alert("Toggle Heatmap!");
+        //     viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
+        // }
     }
 };
 
@@ -114,32 +114,47 @@ import('openseadragon').then(OpenSeadragon => {
     });
 
     const button = new OpenSeadragon.Button({
-            tooltip: 'Toggle heatmap',
-            srcRest: 'https://openseadragon.github.io/openseadragon/images/zoom-in_rest.png',
-            srcGroup: 'https://openseadragon.github.io/openseadragon/images/zoom-in_grouphover.png',
-            srcHover: 'https://openseadragon.github.io/openseadragon/images/zoom-in_hover.png',
-            srcDown: 'https://openseadragon.github.io/openseadragon/images/zoom-in_pressed.png',
-            onClick: function () {
-                alert("Hello");
-            }
-        });
+    tooltip: 'Toggle heatmap',
+    srcRest: 'https://openseadragon.github.io/openseadragon/images/zoom-in_rest.png',
+    srcGroup: 'https://openseadragon.github.io/openseadragon/images/zoom-in_grouphover.png',
+    srcHover: 'https://openseadragon.github.io/openseadragon/images/zoom-in_hover.png',
+    srcDown: 'https://openseadragon.github.io/openseadragon/images/zoom-in_pressed.png',
+    onClick: function () {
+        const overlay = viewer.getOverlayById('example-overlay');
+        if (overlay) {
+            viewer.removeOverlay('example-overlay');
+        } else {
+            const overlayElement = document.createElement("div");
+            overlayElement.id = "example-overlay";
+            overlayElement.innerHTML = "This is an overlay";
+            overlayElement.style.background = "rgba(255, 255, 255, 0.7)";
+            overlayElement.style.padding = "10px";
+            overlayElement.style.fontFamily = "Arial, sans-serif";
+
+            viewer.addOverlay({
+                element: overlayElement,
+                location: new OpenSeadragon.Rect(0.1, 0.1, 0.3, 0.2)
+            });
+        }
+    }
+});
 
     viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
     
-    viewer.addHandler("canvas-drag", function () {
-        console.log("Hello");
-        var overlay = document.createElement("div");
-        overlay.id = "example-overlay";
-        overlay.innerHTML = "This is an overlay";
-        overlay.style.background = "rgba(255, 255, 255, 0)";
-        overlay.style.padding = "10px";
-        overlay.style.fontFamily = "Arial, sans-serif";
+//     viewer.addHandler("canvas-drag", function () {
+//         console.log("Hello");
+//         var overlay = document.createElement("div");
+//         overlay.id = "example-overlay";
+//         overlay.innerHTML = "This is an overlay";
+//         overlay.style.background = "rgba(255, 255, 255, 0)";
+//         overlay.style.padding = "10px";
+//         overlay.style.fontFamily = "Arial, sans-serif";
 
-        viewer.addOverlay({
-            element: overlay,
-            location: new OpenSeadragon.Rect(0.1, 0.1, 0.3, 0.2)
-        });
-    });
+//         viewer.addOverlay({
+//             element: overlay,
+//             location: new OpenSeadragon.Rect(0.1, 0.1, 0.3, 0.2)
+//         });
+//     });
 });
 
 function test() {
