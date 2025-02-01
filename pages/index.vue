@@ -26,6 +26,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { faSearchPlus, faSearchMinus, faUndo, faRedo, faExpand, faPowerOff, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { Style } from '#components';
 
 /* Register the icons into the library */
 library.add(faSearchPlus, faSearchMinus, faUndo, faRedo, faExpand, faPowerOff, faInfo)
@@ -124,12 +125,10 @@ import('openseadragon').then(OpenSeadragon => {
         if (overlay) {
             viewer.removeOverlay('example-overlay');
         } else {
-            const overlayElement = document.createElement("div");
+            const overlayElement = document.createElement("img");
             overlayElement.id = "example-overlay";
-            overlayElement.innerHTML = "This is an overlay";
-            overlayElement.style.background = "rgba(255, 255, 255, 0.7)";
             overlayElement.style.padding = "10px";
-            overlayElement.style.fontFamily = "Arial, sans-serif";
+            overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
 
             viewer.addOverlay({
                 element: overlayElement,
