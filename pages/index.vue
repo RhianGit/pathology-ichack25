@@ -50,27 +50,9 @@ export default {
     },
 
     methods: {
-        zoomIn() {
-            alert("Zooming In!");
-        },
-        zoomOut() {
-            alert("Zooming Out!");
-        },
-        rotateLeft() {
-            alert("Rotating Left!");
-        },
-        rotateRight() {
-            alert("Rotating Right!");
-        },
-        fullScreen() {
-            alert("Full Screen!");
-        },
         toggleHeatmap() {
             alert("Toggle Heatmap!");
             viewer.updateOverlay('openseadragon1', !viewer.getOverlayVisible('heatmap_overlay'));
-        },
-        showInfo() {
-            alert("Show info!");
         }
     }
 };
@@ -82,8 +64,6 @@ var slide_height = 32731;
 var slide_tile = 512;
 
 import('openseadragon').then(OpenSeadragon => {
-
-    
 
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
@@ -133,12 +113,25 @@ import('openseadragon').then(OpenSeadragon => {
         }
     });
 
+    const button = new OpenSeadragon.Button({
+            tooltip: 'Toggle heatmap',
+            srcRest: 'https://openseadragon.github.io/openseadragon/images/zoom-in_rest.png',
+            srcGroup: 'https://openseadragon.github.io/openseadragon/images/zoom-in_grouphover.png',
+            srcHover: 'https://openseadragon.github.io/openseadragon/images/zoom-in_hover.png',
+            srcDown: 'https://openseadragon.github.io/openseadragon/images/zoom-in_pressed.png',
+            onClick: function () {
+                alert("Hello");
+            }
+        });
+
+    viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
+    
     viewer.addHandler("canvas-drag", function () {
         console.log("Hello");
         var overlay = document.createElement("div");
         overlay.id = "example-overlay";
         overlay.innerHTML = "This is an overlay";
-        overlay.style.background = "rgba(255, 255, 255, 0.7)";
+        overlay.style.background = "rgba(255, 255, 255, 0)";
         overlay.style.padding = "10px";
         overlay.style.fontFamily = "Arial, sans-serif";
 
