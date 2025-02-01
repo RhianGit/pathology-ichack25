@@ -1,23 +1,25 @@
-from transformers import pipeline
+from flask import *
+import json
+import requests as rq
 from PIL import Image
-import requests
-import torch as T
-import matplotlib.pyplot as plt
+import cv2 as cv
+import numpy as np
+from io import BytesIO
+from model import process
 
-device = T.device("cpu")
+app = Flask(__name__)
 
-checkpoint = "facebook/sam-vit-base"
-mask_generator = pipeline(model=checkpoint, task="mask-generation", device=device)
-
-img_url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/bee.jpg"
-image = Image.open(requests.get(img_url, stream=True).raw).convert("RGB")
-
-masks = mask_generator(image, points_per_batch=128, pred_iou_thresh=0.88)
-
-plt.imshow(image, cmap='gray')
-
-for i, mask in enumerate(masks["masks"]):
-    plt.imshow(mask, cmap='viridis', alpha=0.1, vmin=0, vmax=1)
-
-plt.axis('off')
-plt.show()
+@app.route("/transform")
+def transform():
+    url = request.args.get("url")
+    rsp = rq.get(url)
+    image = Image.open(BytesIO(rsp.content))
+    
+    out = process(image)
+    
+    enc = cv.imencode(".png", out)[1].tobytes()
+    rsp = make_response(enc)
+    rsp.headers.set('Content-Type', 'image/png')
+    rsp.headers.set(
+        'Content-Disposition', 'attachment', filename='frame.png')
+    return rsp
