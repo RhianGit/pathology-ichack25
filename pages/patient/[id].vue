@@ -5,6 +5,12 @@
     font-weight: bold;
 }
 
+.header-button {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 /* Dark Mode */
 body.dark-mode {
     background-color: #333;
@@ -56,7 +62,7 @@ const route = useRoute()
 
 var slide_path = `/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/${route.params.id}.svs`;
 
-let slide_tile = 512;
+let slide_tile = 224;
 const slide_id = route.params.id.toString();
 let slide_height = 32016;
 let slide_width = 32731;
@@ -71,6 +77,8 @@ import('openseadragon').then(OpenSeadragon => {
         minZoomLevel: 1,
         defaultZoomLevel: 1,
         sequenceMode: true,
+        showNavigator: true,
+        navigatorAutoFade: true,
 
         tileSources: {
             debugMode: false,
@@ -151,7 +159,25 @@ import('openseadragon').then(OpenSeadragon => {
             viewer.viewport.panTo(loc, true);
             viewer.viewport.zoomBy(zoom, loc, true);
         }
+        // viewer.addHandler("open", function () {
+        //     viewer.addOverlay({
+        //         element: overlay,
+        //         location: new OpenSeadragon.Rect(0.49, 0.35, 0.1, 0.15)
+        //     });
+        //     viewer.addOverlay({
+        //         element: overlay2,
+        //         location: new OpenSeadragon.Rect(0.63, 0.2, 0.07, 0.05)
+        //     });
+        // });
     }
+    // var overlay = document.createElement("div");
+    // overlay.style.background = "rgba(128, 0, 128, 0.6)";
+    // overlay.style.padding = "10px";
+    // overlay.style.fontFamily = "Arial, sans-serif";
+    // var overlay2 = document.createElement("div");
+    // overlay2.style.background = "rgba(128, 0, 128, 0.6)";
+    // overlay2.style.padding = "10px";
+    // overlay2.style.fontFamily = "Arial, sans-serif";
     reload();
 });
 
@@ -159,11 +185,11 @@ import('openseadragon').then(OpenSeadragon => {
 <template>
     <div>
         <!-- <div class="flex flex-row justify-center p-4 font-mono text-[24px] text-bold"> -->
-        <div class="flex flex-row items-center">
-        <nuxt-link to="/" class="px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-200 text-center">
-            Patient Directory
-        </nuxt-link>
-        <h1 class="justify-center p-4 header-bar pl-5">Path-o-gen</h1>
+        <div class="flex flex-row items-center header-button">
+            <nuxt-link to="/" class="px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-200 text-center">
+                Patient Directory
+            </nuxt-link>
+            <h1 class="justify-center p-4 header-bar pl-5">Path-o-gen</h1>
         </div>
 
 
