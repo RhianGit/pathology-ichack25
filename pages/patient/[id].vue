@@ -1,110 +1,95 @@
-<style>
-.header-bar {
-    padding: 10px;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 24px;
-    font-weight: bold;
-}
+<!-- <style> -->
+<!-- .header-bar { -->
+<!--     padding: 10px; -->
+<!--     text-align: center; -->
+<!--     font-family: 'Courier New', Courier, monospace; -->
+<!--     font-size: 24px; -->
+<!--     font-weight: bold; -->
+<!-- } -->
+<!---->
+<!-- body { -->
+<!--     background-color: #F2F2EB; -->
+<!-- } -->
+<!---->
+<!-- .button-container { -->
+<!--     display: flex; -->
+<!--     justify-content: center; -->
+<!--     margin-top: 20px; -->
+<!-- } -->
+<!-- </style> -->
 
-body {
-    background-color: #F2F2EB;
-}
+<!-- body { -->
+<!--     background-color: #F2F2EB; -->
+<!-- } -->
+<!---->
+<!-- .button-container { -->
+<!--     display: flex; -->
+<!--     justify-content: center; -->
+<!--     margin-top: 20px; -->
+<!-- } -->
+<!---->
+<!-- /* Dark Mode */ -->
+<!-- body.dark-mode { -->
+<!--     background-color: #333; -->
+<!--     color: white; -->
+<!-- } -->
+<!---->
+<!-- /* Style for the Dark Mode Button */ -->
+<!-- .dark-mode-button { -->
+<!--     padding: 8px 12px; -->
+<!--     font-size: 16px; -->
+<!--     margin-top: 10px; -->
+<!--     background-color: #333; -->
+<!--     color: white; -->
+<!--     border: none; -->
+<!--     cursor: pointer; -->
+<!--     border-radius: 5px; -->
+<!--     font-family: 'Courier New', Courier, monospace; -->
+<!-- } -->
+<!---->
+<!-- .dark-mode-button:hover { -->
+<!--     background-color: #555; -->
+<!-- } -->
+<!---->
+<!-- body.dark-mode .dark-mode-button { -->
+<!--     background-color: white; -->
+<!--     color: #333; -->
+<!-- } -->
+<!---->
+<!-- body.dark-mode .dark-mode-button:hover { -->
+<!--     background-color: #ddd; -->
+<!-- } -->
+<!-- </style> -->
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background-color: #333;
-    color: white;
-}
-
-/* Style for the Dark Mode Button */
-.dark-mode-button {
-    padding: 8px 12px;
-    font-size: 16px;
-    margin-top: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.dark-mode-button:hover {
-    background-color: #555;
-}
-
-body.dark-mode .dark-mode-button {
-    background-color: white;
-    color: #333;
-}
-
-body.dark-mode .dark-mode-button:hover {
-    background-color: #ddd;
-}
-</style>
-
-<script lang="ts">
-export default {
-    data() {
-        return {
-            darkMode: false
-        };
-    },
-    methods: {
-        toggleDarkMode() {
-            this.darkMode = !this.darkMode;
-            document.body.classList.toggle("dark-mode", this.darkMode);
-        }
-    }
-};
-
+<!-- <script lang="ts"> -->
+<!-- export default { -->
+<!--     data() { -->
+<!--         return { -->
+<!--             darkMode: false -->
+<!--         }; -->
+<!--     }, -->
+<!--     methods: { -->
+<!--         toggleDarkMode() { -->
+<!--             this.darkMode = !this.darkMode; -->
+<!--             document.body.classList.toggle("dark-mode", this.darkMode); -->
+<!--         } -->
+<!--     } -->
+<!-- }; -->
+<!---->
+<!-- ======= -->
+<script setup lang="ts">
 import type OpenSeadragon from 'openseadragon';
 
-var slide_name = '17229.svs';
-var slide_path = '/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs';
-var slide_width = 32016;
-var slide_height = 32731;
-var slide_tile = 512;
+const route = useRoute()
+
+var slide_path = `/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/${route.params.id}.svs`;
+
+let slide_tile = 512;
+const slide_id = route.params.id.toString();
+let slide_height = 32016;
+let slide_width = 32731;
 
 import('openseadragon').then(OpenSeadragon => {
-    async function handleFormSubmit() {
-        try {
-            const response = await fetch('http://127.0.0.1:5000/transform?' + new URLSearchParams({
-                url: "https://slides.virtualpathology.leeds.ac.uk/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs?512+1536+512+512+16+100"
-            }), {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'omit'
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const imageBlob = await response.blob();
-            const imageUrl = URL.createObjectURL(imageBlob);
-
-            const overlayElement = document.getElementById('example-overlay'); // Assuming there's an element with this ID
-            if (overlayElement) {
-                overlayElement.src = imageUrl;
-                overlayElement.style.width = "100%";
-                overlayElement.style.height = "100%";
-                console.log(overlayElement.src);
-            } else {
-                console.error('Overlay element not found');
-            }
-        } catch (error) {
-            console.error('Error fetching or processing the image:', error);
-        }
-    }
-
     let overlayVisible = false;
 
     let options = {
@@ -125,9 +110,6 @@ import('openseadragon').then(OpenSeadragon => {
             minLevel: 0,
             maxLevel: 8,
             getTileUrl: function (level, x, y) {
-
-                console.log("h");
-
                 var zoom_list = [256, 128, 64, 32, 16, 8, 4, 2, 1];
                 var zoom = zoom_list[level]; //((max_level + 0) - level) - 1;
 
@@ -147,6 +129,8 @@ import('openseadragon').then(OpenSeadragon => {
                     });
                 }
 
+                console.log(request_string);
+
                 return request_string;
             }
         }
@@ -154,6 +138,7 @@ import('openseadragon').then(OpenSeadragon => {
 
     let viewer: OpenSeadragon.Viewer | null = null;
     let colorBlindValue = false;
+
     function colorBlind(): void {
         colorBlindValue = !colorBlindValue;
         reload();
@@ -169,20 +154,20 @@ import('openseadragon').then(OpenSeadragon => {
         }
         viewer = OpenSeadragon.default(options);
         const button = new OpenSeadragon.Button({
-            tooltip: 'toggle heatmap',
-            srcRest: 'images/button_rest.png',
-            srcHover: 'images/button_hover.png',
-            srcDown: 'images/button_down.png',
+            tooltip: '',
+            srcRest: '../images/button_rest.png',
+            srcHover: '../images/button_hover.png',
+            srcDown: '../images/button_down.png',
             onClick: function () {
                 overlayVisible = !overlayVisible;
                 reload();
             }
         });
         const greyscaleButton = new OpenSeadragon.Button({
-            tooltip: 'greyscale heatmap',
-            srcRest: 'images/debug_rest.png',   
-            srcHover: 'images/debug_hover.png', 
-            srcDown: 'images/debug_down.png',   
+            tooltip: '',
+            srcRest: '../images/button_rest.png',
+            srcHover: '../images/button_hover.png',
+            srcDown: '../images/button_down.png',
             onClick: function () {
                 colorBlind();
             }
@@ -201,14 +186,14 @@ import('openseadragon').then(OpenSeadragon => {
 
 <template>
     <div>
-        <div class="header-bar">
+        <div class="flex flex-row justify-center p-4 text-6xl">
             <h1>Path-o-gen</h1>
         </div>
 
         <button @click="toggleDarkMode" class="dark-mode-button">Toggle Dark Mode</button>
 
         <div>
-            <div id="openseadragon1" class="p-4 h-screen"></div>
+            <div id="openseadragon1" class="pl-12 h-screen"></div>
         </div>
     </div>
 </template>
