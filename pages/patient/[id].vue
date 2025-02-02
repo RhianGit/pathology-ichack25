@@ -1,4 +1,10 @@
 <style>
+.header-bar {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 /* Dark Mode */
 body.dark-mode {
     background-color: #333;
@@ -43,7 +49,6 @@ let darkMode = false
 
 function toggleDarkMode() {
     darkMode = !darkMode;
-    console.log("Hello");
     document.body.classList.toggle("dark-mode", darkMode);
 }
 
@@ -92,11 +97,12 @@ import('openseadragon').then(OpenSeadragon => {
                 if (overlayVisible) {
                     request_string = 'http://127.0.0.1:5000/transform?' + new URLSearchParams({
                         url: request_string,
-                        cb: colorBlindValue.toString()
+                        cb: colorBlindValue.toString(),
                     });
                 }
 
-                console.log(request_string);
+                // console.log(colorBlindValue);
+                // console.log(colorBlindValue.toString());
 
                 return request_string;
             }
@@ -115,9 +121,9 @@ import('openseadragon').then(OpenSeadragon => {
         let zoom: any | null = null;
         let loc: any | null = null;
         if (viewer !== null) {
-            viewer.destroy();
             zoom = viewer.viewport.getZoom();
             loc = viewer.viewport.getCenter();
+            viewer.destroy();
         }
         viewer = OpenSeadragon.default(options);
         const button = new OpenSeadragon.Button({
@@ -152,11 +158,11 @@ import('openseadragon').then(OpenSeadragon => {
 </script>
 <template>
     <div>
-        <div class="flex flex-row justify-center p-4 font-mono text-[32px]">
+        <!-- <div class="flex flex-row justify-center p-4 font-mono text-[24px] text-bold"> -->
+        <div class="flex flex-row justify-center p-4 header-bar">
             <h1>Path-o-gen</h1>
         </div>
 
-        <button @click="toggleDarkMode" class="ml-12 flex justify-center mt-[20px] dark-mode-button">Toggle Dark Mode</button>
 
         <div>
             <div id="openseadragon1" class="px-12 h-screen"></div>

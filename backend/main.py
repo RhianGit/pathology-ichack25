@@ -12,6 +12,7 @@ CORS(app)
 @app.route("/transform")
 def transform():
     url = request.args.get("url")
+    print(request.args)
     cb = request.args.get("cb") == "true"
     print(url)
     

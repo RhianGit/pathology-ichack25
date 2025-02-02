@@ -56,7 +56,7 @@ def process(image, cb):
     ub = processed.max() - lb
     processed -= lb
     processed /= ub
-    processed = processed ** 3
+    # processed = processed ** 3
 
     out = np.zeros((processed.shape[0], processed.shape[1], 4), dtype=np.uint8)
     out[:,:,0] = 255 if not cb else 0  #blue
