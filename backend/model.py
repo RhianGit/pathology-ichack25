@@ -42,7 +42,7 @@ for i in range(len(model_children)):
                     counter+=1
                     conv_layers.append(child)
 
-def process(image):
+def process(image, cb):
     image = transform(image).unsqueeze(0).to(device)
 
     for i, layer in enumerate(conv_layers[:LAYER_NO+1]):
@@ -59,7 +59,7 @@ def process(image):
     processed = processed ** 3
 
     out = np.zeros((processed.shape[0], processed.shape[1], 4), dtype=np.uint8)
-    out[:,:,0] = 255
+    out[:,:,0] = 255 if not cb else 0  #blue
     out[:,:,1] = 0
     out[:,:,2] = 0
     out[:,:,3] = (processed*255).astype(np.uint8)

@@ -14,6 +14,7 @@ results = {}
 @app.route("/transform")
 def transform():
     url = request.args.get("url")
+    cb = request.args.get("cb") == "true"
     print(url)
 
     # It is already cached
@@ -23,7 +24,7 @@ def transform():
     rsp = rq.get(url)
     image = Image.open(BytesIO(rsp.content))
 
-    out = process(image)
+    out = process(image, cb)
 
     enc = cv.imencode(".png", out)[1].tobytes()
     rsp = make_response(enc)

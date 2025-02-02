@@ -142,7 +142,8 @@ import('openseadragon').then(OpenSeadragon => {
 
                 if (overlayVisible) {
                     request_string = 'http://127.0.0.1:5000/transform?' + new URLSearchParams({
-                        url: request_string
+                        url: request_string,
+                        cb: colorBlindValue.toString()
                     });
                 }
 
@@ -152,6 +153,11 @@ import('openseadragon').then(OpenSeadragon => {
     };
 
     let viewer: OpenSeadragon.Viewer | null = null;
+    let colorBlindValue = false;
+    function colorBlind(): void {
+        colorBlindValue = !colorBlindValue;
+        reload();
+    }
 
     function reload() {
         let zoom: any | null = null;
@@ -178,8 +184,7 @@ import('openseadragon').then(OpenSeadragon => {
             srcHover: 'images/debug_hover.png', 
             srcDown: 'images/debug_down.png',   
             onClick: function () {
-                console.log('Greyscale Button Clicked!');
-                alert('Greyscale Button Clicked!');
+                colorBlind();
             }
         });
         viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
