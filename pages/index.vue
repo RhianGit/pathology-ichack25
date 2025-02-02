@@ -19,6 +19,8 @@ body {
 </style>
 
 <script lang="ts">
+import type OpenSeadragon from 'openseadragon';
+
 var slide_name = '17229.svs';
 var slide_path = '/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs';
 var slide_width = 32016;
@@ -57,7 +59,9 @@ import('openseadragon').then(OpenSeadragon => {
         }
     }
 
-    const viewer = OpenSeadragon.default({
+    let overlayVisible = false;
+
+    let options = {
         id: "openseadragon1",
         preserveViewport: true,
         visibilityRatio: 1,
@@ -90,38 +94,45 @@ import('openseadragon').then(OpenSeadragon => {
                     zoom + //1 / (level - (slide_levels - 1)) +
                     '+100';
 
+                if (overlayVisible) {
+                    request_string = 'http://127.0.0.1:5000/transform?' + new URLSearchParams({
+                        url: request_string
+                    });
+                }
+
                 return request_string;
             }
         }
-    });
-    const overlayElement = document.createElement("img");
-    overlayElement.id = "example-overlay";
+    };
 
-    let overlayVisible = false;
+    let viewer: OpenSeadragon.Viewer | null = null;
 
-    const button = new OpenSeadragon.Button({
-        tooltip: '',
-        srcRest: 'images/button_rest.png',
-        srcHover: 'images/button_hover.png',
-        srcDown: 'images/button_down.png',
-        onClick: function () {
-            if (overlayVisible) {
-                viewer.removeOverlay('example-overlay');
-            } else {
-                handleFormSubmit();
-                viewer.addOverlay({
-                    element: overlayElement,
-                    location: new OpenSeadragon.Rect(0, 0, 1, 1),
-                    width: slide_width,
-                    height: slide_height,
-                    checkResize: false,
-                });
-            }
-            overlayVisible = !overlayVisible;
+    function reload() {
+        let zoom: any | null = null;
+        let loc: any | null = null;
+        if (viewer !== null) {
+            viewer.destroy();
+            zoom = viewer.viewport.getZoom();
+            loc = viewer.viewport.getCenter();
         }
-    });
-
-    viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
+        viewer = OpenSeadragon.default(options);
+        const button = new OpenSeadragon.Button({
+            tooltip: '',
+            srcRest: 'images/button_rest.png',
+            srcHover: 'images/button_hover.png',
+            srcDown: 'images/button_down.png',
+            onClick: function () {
+                overlayVisible = !overlayVisible;
+                reload();
+            }
+        });
+        viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
+        if (zoom !== null && loc != null) {
+            viewer.viewport.panTo(loc, true);
+            viewer.viewport.zoomBy(zoom, loc, true);
+        }
+    }
+    reload();
 });
 
 </script>
@@ -129,7 +140,7 @@ import('openseadragon').then(OpenSeadragon => {
 <template>
     <div>
         <div class="header-bar">
-            <h1>Pathology heatmap generator</h1>
+            <h1>Path-o-gen</h1>
         </div>
 
         <div>

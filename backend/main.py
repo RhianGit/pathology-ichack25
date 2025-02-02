@@ -1,9 +1,7 @@
 from flask import *
-import json
 import requests as rq
 from PIL import Image
 import cv2 as cv
-import numpy as np
 from io import BytesIO
 from model import process
 from flask_cors import CORS
