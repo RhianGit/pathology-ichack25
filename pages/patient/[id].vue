@@ -16,9 +16,45 @@ body {
     justify-content: center;
     margin-top: 20px;
 }
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+/* Style for the Dark Mode Button */
+.dark-mode-button {
+    padding: 8px 12px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dark-mode-button:hover {
+    background-color: #555;
+}
 </style>
 
 <script lang="ts">
+export default {
+    data() {
+        return {
+            darkMode: false
+        };
+    },
+    methods: {
+        toggleDarkMode() {
+            this.darkMode = !this.darkMode;
+            document.body.classList.toggle("dark-mode", this.darkMode);
+        }
+    }
+};
+
 import type OpenSeadragon from 'openseadragon';
 
 var slide_name = '17229.svs';
@@ -117,7 +153,7 @@ import('openseadragon').then(OpenSeadragon => {
         }
         viewer = OpenSeadragon.default(options);
         const button = new OpenSeadragon.Button({
-            tooltip: '',
+            tooltip: 'toggle heatmap',
             srcRest: 'images/button_rest.png',
             srcHover: 'images/button_hover.png',
             srcDown: 'images/button_down.png',
@@ -126,7 +162,18 @@ import('openseadragon').then(OpenSeadragon => {
                 reload();
             }
         });
+        const greyscaleButton = new OpenSeadragon.Button({
+            tooltip: 'greyscale heatmap',
+            srcRest: 'images/debug_rest.png',   
+            srcHover: 'images/debug_hover.png', 
+            srcDown: 'images/debug_down.png',   
+            onClick: function () {
+                console.log('Greyscale Button Clicked!');
+                alert('Greyscale Button Clicked!');
+            }
+        });
         viewer.addControl(button.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
+        viewer.addControl(greyscaleButton.element, { anchor: OpenSeadragon.ControlAnchor.TOP_LEFT });
         if (zoom !== null && loc != null) {
             viewer.viewport.panTo(loc, true);
             viewer.viewport.zoomBy(zoom, loc, true);
@@ -142,6 +189,8 @@ import('openseadragon').then(OpenSeadragon => {
         <div class="header-bar">
             <h1>Path-o-gen</h1>
         </div>
+
+        <button @click="toggleDarkMode" class="dark-mode-button">Toggle Dark Mode</button>
 
         <div>
             <div id="openseadragon1" class="p-4 h-screen"></div>
