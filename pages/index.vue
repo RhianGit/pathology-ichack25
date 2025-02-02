@@ -32,7 +32,6 @@ import('openseadragon').then(OpenSeadragon => {
                 url: "https://slides.virtualpathology.leeds.ac.uk/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs?512+1536+512+512+16+100"
             }), {
                 method: 'GET',
-                // Only for local dev with self-signed certs
                 mode: 'cors',
                 credentials: 'omit'
             });
@@ -44,12 +43,11 @@ import('openseadragon').then(OpenSeadragon => {
             const imageBlob = await response.blob();
             const imageUrl = URL.createObjectURL(imageBlob);
 
-            console.log(imageBlob);
-            console.log(imageUrl);
-
             const overlayElement = document.getElementById('example-overlay'); // Assuming there's an element with this ID
             if (overlayElement) {
                 overlayElement.src = imageUrl;
+                overlayElement.style.width = "100%";
+                overlayElement.style.height = "100%";
                 console.log(overlayElement.src);
             } else {
                 console.error('Overlay element not found');
@@ -58,22 +56,6 @@ import('openseadragon').then(OpenSeadragon => {
             console.error('Error fetching or processing the image:', error);
         }
     }
-
-    // async function handleFormSubmit() {
-    //     const { data: imageBlob, error } = await useFetch('http://127.0.0.1:5000/transform', {
-    //         method: 'GET',
-    //         query: { url: "https://slides.virtualpathology.leeds.ac.uk/Research_1/Prof_Quirke/TISSUE_BANK/GIFT_16/17229.svs?512+1536+512+512+16+100" },
-    //         https: { rejectUnauthorized: false } // Only for local dev with self-signed certs
-    //     });
-    //
-    //     const blob = new Blob([imageBlob.value], { type: 'image/png' });
-    //     const imageUrl = URL.createObjectURL(blob);
-    //
-    //     console.log(blob);
-    //     console.log(imageUrl);
-    //     overlayElement.src = imageUrl;
-    //     console.log(overlayElement.src);
-    // }
 
     const viewer = OpenSeadragon.default({
         id: "openseadragon1",
@@ -114,12 +96,6 @@ import('openseadragon').then(OpenSeadragon => {
     });
     const overlayElement = document.createElement("img");
     overlayElement.id = "example-overlay";
-    overlayElement.id = "example-overlay";
-    overlayElement.style.padding = "10px";
-    overlayElement.src = "https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg";
-    overlayElement.style.width = "100%";
-    overlayElement.style.height = "100%";
-    overlayElement.style.opacity = "0.2";
 
     let overlayVisible = false;
 
@@ -135,12 +111,11 @@ import('openseadragon').then(OpenSeadragon => {
                 handleFormSubmit();
                 viewer.addOverlay({
                     element: overlayElement,
-                    location: new OpenSeadragon.Point(0, 0),
+                    location: new OpenSeadragon.Rect(0, 0, 1, 1),
                     width: slide_width,
                     height: slide_height,
-                    checkResize: true,
+                    checkResize: false,
                 });
-                overlayVisible = !overlayVisible;
             }
             overlayVisible = !overlayVisible;
         }
