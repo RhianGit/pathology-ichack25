@@ -159,8 +159,11 @@ import('openseadragon').then(OpenSeadragon => {
 <template>
     <div>
         <!-- <div class="flex flex-row justify-center p-4 font-mono text-[24px] text-bold"> -->
-        <div class="flex flex-row justify-center p-4 header-bar">
-            <h1>Path-o-gen</h1>
+        <div class="flex flex-row items-center">
+        <nuxt-link to="/" class="px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-200 text-center">
+            Patient Directory
+        </nuxt-link>
+        <h1 class="justify-center p-4 header-bar pl-5">Path-o-gen</h1>
         </div>
 
 
