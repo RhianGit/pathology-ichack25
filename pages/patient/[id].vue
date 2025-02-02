@@ -33,10 +33,20 @@ body.dark-mode {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .dark-mode-button:hover {
     background-color: #555;
+}
+
+body.dark-mode .dark-mode-button {
+    background-color: white;
+    color: #333;
+}
+
+body.dark-mode .dark-mode-button:hover {
+    background-color: #ddd;
 }
 </style>
 
