@@ -9,17 +9,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-results = {}
-
 @app.route("/transform")
 def transform():
     url = request.args.get("url")
     cb = request.args.get("cb") == "true"
     print(url)
-
-    # It is already cached
-    if url in results: 
-        return results[url]
     
     rsp = rq.get(url)
     image = Image.open(BytesIO(rsp.content))
@@ -32,5 +26,4 @@ def transform():
     rsp.headers.set(
         'Content-Disposition', 'attachment', filename='frame.png')
     
-    results[url] = rsp
     return rsp
