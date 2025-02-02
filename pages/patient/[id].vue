@@ -1,84 +1,51 @@
-<!-- <style> -->
-<!-- .header-bar { -->
-<!--     padding: 10px; -->
-<!--     text-align: center; -->
-<!--     font-family: 'Courier New', Courier, monospace; -->
-<!--     font-size: 24px; -->
-<!--     font-weight: bold; -->
-<!-- } -->
-<!---->
-<!-- body { -->
-<!--     background-color: #F2F2EB; -->
-<!-- } -->
-<!---->
-<!-- .button-container { -->
-<!--     display: flex; -->
-<!--     justify-content: center; -->
-<!--     margin-top: 20px; -->
-<!-- } -->
-<!-- </style> -->
+<style>
+/* Dark Mode */
+body.dark-mode {
+    background-color: #333;
+    color: white;
+}
 
-<!-- body { -->
-<!--     background-color: #F2F2EB; -->
-<!-- } -->
-<!---->
-<!-- .button-container { -->
-<!--     display: flex; -->
-<!--     justify-content: center; -->
-<!--     margin-top: 20px; -->
-<!-- } -->
-<!---->
-<!-- /* Dark Mode */ -->
-<!-- body.dark-mode { -->
-<!--     background-color: #333; -->
-<!--     color: white; -->
-<!-- } -->
-<!---->
-<!-- /* Style for the Dark Mode Button */ -->
-<!-- .dark-mode-button { -->
-<!--     padding: 8px 12px; -->
-<!--     font-size: 16px; -->
-<!--     margin-top: 10px; -->
-<!--     background-color: #333; -->
-<!--     color: white; -->
-<!--     border: none; -->
-<!--     cursor: pointer; -->
-<!--     border-radius: 5px; -->
-<!--     font-family: 'Courier New', Courier, monospace; -->
-<!-- } -->
-<!---->
-<!-- .dark-mode-button:hover { -->
-<!--     background-color: #555; -->
-<!-- } -->
-<!---->
-<!-- body.dark-mode .dark-mode-button { -->
-<!--     background-color: white; -->
-<!--     color: #333; -->
-<!-- } -->
-<!---->
-<!-- body.dark-mode .dark-mode-button:hover { -->
-<!--     background-color: #ddd; -->
-<!-- } -->
-<!-- </style> -->
+body {
+    background-color: #F2F2EB;
+}
 
-<!-- <script lang="ts"> -->
-<!-- export default { -->
-<!--     data() { -->
-<!--         return { -->
-<!--             darkMode: false -->
-<!--         }; -->
-<!--     }, -->
-<!--     methods: { -->
-<!--         toggleDarkMode() { -->
-<!--             this.darkMode = !this.darkMode; -->
-<!--             document.body.classList.toggle("dark-mode", this.darkMode); -->
-<!--         } -->
-<!--     } -->
-<!-- }; -->
-<!---->
-<!-- ======= -->
+/* Style for the Dark Mode Button */
+.dark-mode-button {
+    padding: 8px 12px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.dark-mode-button:hover {
+    background-color: #555;
+}
+
+body.dark-mode .dark-mode-button {
+    background-color: white;
+    color: #333;
+}
+
+body.dark-mode .dark-mode-button:hover {
+    background-color: #ddd;
+}
+</style>
+
 <script setup lang="ts">
 import type OpenSeadragon from 'openseadragon';
+
+let darkMode = false
+
+function toggleDarkMode() {
+    darkMode = !darkMode;
+    console.log("Hello");
+    document.body.classList.toggle("dark-mode", darkMode);
+}
 
 const route = useRoute()
 
@@ -183,17 +150,16 @@ import('openseadragon').then(OpenSeadragon => {
 });
 
 </script>
-
 <template>
     <div>
-        <div class="flex flex-row justify-center p-4 text-6xl">
+        <div class="flex flex-row justify-center p-4 font-mono text-[32px]">
             <h1>Path-o-gen</h1>
         </div>
 
-        <button @click="toggleDarkMode" class="dark-mode-button">Toggle Dark Mode</button>
+        <button @click="toggleDarkMode" class="ml-12 flex justify-center mt-[20px] dark-mode-button">Toggle Dark Mode</button>
 
         <div>
-            <div id="openseadragon1" class="pl-12 h-screen"></div>
+            <div id="openseadragon1" class="px-12 h-screen"></div>
         </div>
     </div>
 </template>
